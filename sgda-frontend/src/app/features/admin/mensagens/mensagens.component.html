@@ -1,0 +1,42 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Mensagens</h1>
+    <p>Conversas seguras com quem submeteu cada denúncia.</p>
+  </div>
+</div>
+
+<div class="mensagens">
+  <aside class="cartao mensagens__lista">
+    @if (carregando()) {
+      <p class="mensagens__vazio">A carregar…</p>
+    } @else if (!casos().length) {
+      <p class="mensagens__vazio">Ainda não há casos.</p>
+    }
+    @for (c of casos(); track c.id) {
+      <button class="mensagens__caso" [class.mensagens__caso--ativo]="selecionada()?.id === c.id" (click)="escolher(c)">
+        <span class="mono">{{ c.protocolo }}</span>
+        <span class="mensagens__caso-meta">
+          <vigia-status-pill [status]="c.status" />
+          <span>{{ c.dataCriacao | date:'dd/MM/yyyy' }}</span>
+        </span>
+      </button>
+    }
+  </aside>
+
+  <section class="cartao mensagens__painel">
+    @if (selecionada(); as s) {
+      <header class="mensagens__topo">
+        <span class="mono">{{ s.protocolo }}</span>
+        <a class="btn-texto" [routerLink]="['/painel/denuncias', s.id]">Abrir caso</a>
+      </header>
+      <div class="mensagens__chat">
+        <vigia-chat-panel [modo]="'gestao'" [referencia]="s.id" />
+      </div>
+    } @else {
+      <div class="mensagens__placeholder">
+        <vigia-icon nome="conversa" [tamanho]="30" cor="var(--cor-borda-forte)" />
+        <p>Escolhe um caso para ver a conversa.</p>
+      </div>
+    }
+  </section>
+</div>

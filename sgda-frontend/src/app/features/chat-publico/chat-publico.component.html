@@ -1,0 +1,38 @@
+<header class="nav">
+  <a routerLink="/" class="nav__marca">
+    <vigia-icon nome="selo" [tamanho]="24" cor="var(--cor-vermelho)" />
+    <span>Vigia</span>
+  </a>
+</header>
+
+<main class="chat-publico">
+  <div class="chat-publico__cabecalho">
+    <vigia-icon nome="conversa" [tamanho]="30" cor="var(--cor-vermelho)" />
+    <h1>Chat seguro com o Comité</h1>
+    <p>Só quem tem o protocolo acede a esta conversa. O Comité não vê quem és, a menos que decidas dizer.</p>
+  </div>
+
+  @if (ativo(); as protocolo) {
+    <div class="cartao chat-publico__caixa">
+      <div class="chat-publico__topo">
+        <span class="mono">{{ protocolo }}</span>
+        <div>
+          <a class="btn-texto" [routerLink]="['/rastreio', protocolo]">Ver estado</a>
+          <button class="btn-texto" (click)="trocar()">Trocar protocolo</button>
+        </div>
+      </div>
+      <div class="chat-publico__conversa">
+        <vigia-chat-panel [modo]="'publico'" [referencia]="protocolo" />
+      </div>
+    </div>
+    <p class="chat-publico__nota">Não partilhes o teu protocolo com ninguém. Quem o tiver consegue ler esta conversa.</p>
+  } @else {
+    <div class="chat-publico__busca">
+      <input type="text" class="mono" placeholder="Introduz o teu protocolo" [(ngModel)]="protocolo" (keyup.enter)="abrir()">
+      <button class="btn btn-primario" (click)="abrir()" [disabled]="a_verificar()">
+        {{ a_verificar() ? 'A verificar…' : 'Abrir conversa' }}
+      </button>
+    </div>
+    @if (erro()) { <p class="aviso aviso--erro chat-publico__erro">{{ erro() }}</p> }
+  }
+</main>

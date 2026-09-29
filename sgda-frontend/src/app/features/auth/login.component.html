@@ -1,0 +1,31 @@
+<div class="pagina-entrar">
+  <a routerLink="/" class="marca">
+    <vigia-icon nome="selo" [tamanho]="26" cor="var(--cor-vermelho)" />
+    <span>Vigia</span>
+  </a>
+
+  <form class="cartao entrar" (ngSubmit)="entrar()">
+    <h1>Painel de Gestão</h1>
+    <p class="entrar__sub">Acesso restrito ao Comité de Ética.</p>
+
+    <div class="campo">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="nome@vigia.local"
+             [(ngModel)]="email" autocomplete="username">
+    </div>
+
+    <div class="campo">
+      <label for="senha">Palavra-passe</label>
+      <input id="senha" name="senha" type="password" placeholder="••••••••"
+             [(ngModel)]="senha" autocomplete="current-password">
+    </div>
+
+    @if (erro()) {
+      <p class="entrar__erro">{{ erro() }}</p>
+    }
+
+    <button type="submit" class="btn btn-primario btn-bloco" [disabled]="entrando()">
+      {{ entrando() ? 'A entrar…' : 'Entrar' }}
+    </button>
+  </form>
+</div>

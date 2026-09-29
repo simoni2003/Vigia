@@ -1,0 +1,84 @@
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Utilizadores</h1>
+    <p>Gestores e investigadores com acesso ao painel.</p>
+  </div>
+  <button class="btn btn-primario" (click)="novo()">
+    <vigia-icon nome="mais" [tamanho]="16" cor="#fff" />
+    Novo utilizador
+  </button>
+</div>
+
+<div class="utilizadores" [class.utilizadores--com-form]="modo() !== 'nenhum'">
+  <div class="cartao utilizadores__tabela">
+    @if (carregando()) {
+      <p class="utilizadores__vazio">A carregar…</p>
+    } @else {
+      <table class="tabela">
+        <thead>
+          <tr><th>Nome</th><th>Email</th><th>Perfil</th><th>Estado</th><th></th></tr>
+        </thead>
+        <tbody>
+          @for (u of lista(); track u.id) {
+            <tr>
+              <td>{{ u.nome }}@if (eu(u)) { <span class="utilizadores__eu">tu</span> }</td>
+              <td class="mono">{{ u.email }}</td>
+              <td>{{ rotuloRole[u.role] }}</td>
+              <td>
+                <span class="selo" [class.selo--ativo]="u.ativo" [class.selo--inativo]="!u.ativo">
+                  {{ u.ativo ? 'Ativo' : 'Desativado' }}
+                </span>
+              </td>
+              <td class="utilizadores__acoes">
+                <button class="btn-texto" (click)="editar(u)">
+                  <vigia-icon nome="lapis" [tamanho]="15" /> Editar
+                </button>
+                @if (u.ativo && !eu(u)) {
+                  <button class="btn-texto btn-texto--perigo" (click)="desativar(u)">Desativar</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (modo() !== 'nenhum') {
+    <form class="cartao utilizadores__form" (ngSubmit)="guardar()">
+      <div class="utilizadores__form-topo">
+        <h2>{{ modo() === 'novo' ? 'Novo utilizador' : 'Editar utilizador' }}</h2>
+        <button type="button" class="utilizadores__fechar" (click)="fechar()" aria-label="Fechar">
+          <vigia-icon nome="fechar" [tamanho]="18" />
+        </button>
+      </div>
+
+      <div class="campo">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" [(ngModel)]="form.nome">
+      </div>
+      <div class="campo">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" [(ngModel)]="form.email">
+      </div>
+      <div class="campo">
+        <label for="senha">{{ modo() === 'novo' ? 'Palavra-passe' : 'Nova palavra-passe (opcional)' }}</label>
+        <input id="senha" name="senha" type="password" autocomplete="new-password" [(ngModel)]="form.senha">
+      </div>
+      <div class="campo">
+        <label for="role">Perfil</label>
+        <select id="role" name="role" [(ngModel)]="form.role">
+          @for (r of roles; track r) {
+            <option [value]="r">{{ rotuloRole[r] }}</option>
+          }
+        </select>
+      </div>
+
+      @if (erro()) { <p class="aviso aviso--erro">{{ erro() }}</p> }
+
+      <button type="submit" class="btn btn-primario btn-bloco" [disabled]="aGuardar()">
+        {{ aGuardar() ? 'A guardar…' : 'Guardar' }}
+      </button>
+    </form>
+  }
+</div>

@@ -1,0 +1,43 @@
+:host { display: block; }
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-5);
+  max-width: 1080px;
+
+  &__filtros {
+    display: flex;
+    gap: var(--espaco-4);
+    padding: var(--espaco-4);
+  }
+
+  &__busca {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-3);
+    background: var(--cor-fundo-alt);
+    border-radius: var(--raio-s);
+    padding: 0 14px;
+
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 11px 0;
+      font-size: 14px;
+      font-family: var(--fonte-mono);
+    }
+    input:focus { outline: none; }
+  }
+
+  &__tabela { padding: var(--espaco-3) var(--espaco-5) var(--espaco-5); }
+
+  &__vazio {
+    text-align: center;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+    padding: var(--espaco-7) 0;
+  }
+}

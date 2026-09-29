@@ -1,0 +1,103 @@
+<a routerLink="/painel/denuncias" class="voltar">
+  <vigia-icon nome="voltar" [tamanho]="16" />
+  Denúncias
+</a>
+
+@if (denuncia(); as d) {
+  <div class="detalhe">
+    <header class="detalhe__cabecalho">
+      <div>
+        <p class="detalhe__etiqueta">Protocolo</p>
+        <h1 class="mono">{{ d.protocolo }}</h1>
+      </div>
+      <vigia-status-pill [status]="d.status" />
+    </header>
+
+    <div class="detalhe__grelha">
+      <div class="detalhe__coluna">
+        <section class="cartao bloco">
+          <h2>Relato</h2>
+          <p class="bloco__meta">
+            Submetida em {{ d.dataCriacao | date:'dd/MM/yyyy, HH:mm' }} · {{ d.anonima ? 'Anónima' : 'Identificada' }}
+          </p>
+          <p class="detalhe__descricao">{{ d.descricao }}</p>
+          @if (d.anexoUrl) {
+            <a [href]="d.anexoUrl" target="_blank" rel="noopener" class="detalhe__anexo">
+              <vigia-icon nome="clipe" [tamanho]="16" />
+              Ver anexo
+            </a>
+          }
+        </section>
+
+        <section class="cartao bloco">
+          <h2>Tratamento do caso</h2>
+
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" [(ngModel)]="novoEstado">
+              @for (e of estados; track e.valor) {
+                <option [value]="e.valor">{{ e.label }}</option>
+              }
+            </select>
+          </div>
+          <div class="campo">
+            <label for="obs">Observação (opcional)</label>
+            <textarea id="obs" rows="2" [(ngModel)]="observacao"></textarea>
+          </div>
+          <button class="btn btn-primario" (click)="atualizarEstado()" [disabled]="aGuardar()">Atualizar estado</button>
+
+          @if (podeAtribuir()) {
+            <hr>
+            <p class="bloco__meta">Investigador atual: <strong>{{ d.investigadorResponsavel || 'sem atribuição' }}</strong></p>
+            <div class="campo">
+              <label for="investigador">Atribuir investigador</label>
+              <select id="investigador" [(ngModel)]="investigadorId">
+                <option [ngValue]="null">Selecionar…</option>
+                @for (i of investigadores(); track i.id) {
+                  <option [ngValue]="i.id">{{ i.nome }}</option>
+                }
+              </select>
+            </div>
+            @if (!investigadores().length) {
+              <p class="bloco__meta">Ainda não existem investigadores ativos. Um administrador pode criá-los em Utilizadores.</p>
+            }
+            <button class="btn btn-secundario" (click)="atribuir()" [disabled]="aGuardar() || investigadorId === null">Atribuir</button>
+          }
+
+          @if (aviso(); as a) {
+            <p class="aviso" [class.aviso--ok]="a.tipo === 'ok'" [class.aviso--erro]="a.tipo === 'erro'">{{ a.texto }}</p>
+          }
+        </section>
+
+        <section class="cartao bloco">
+          <h2>Histórico</h2>
+          <ol class="timeline">
+            @for (h of historico(); track h.id) {
+              <li>
+                <span class="timeline__ponto"></span>
+                <div>
+                  <p class="timeline__acao">{{ rotulo(h.acao) }}</p>
+                  @if (h.detalhes) { <p class="timeline__detalhe">{{ h.detalhes }}</p> }
+                  <p class="timeline__data mono">
+                    {{ h.dataHora | date:'dd/MM/yyyy, HH:mm' }}@if (h.usuario) { · {{ h.usuario }} }
+                  </p>
+                </div>
+              </li>
+            }
+          </ol>
+        </section>
+      </div>
+
+      <aside class="cartao detalhe__chat">
+        <h2 class="detalhe__chat-titulo">Chat seguro com o denunciante</h2>
+        <div class="detalhe__chat-corpo">
+          <vigia-chat-panel [modo]="'gestao'" [referencia]="d.id" />
+        </div>
+      </aside>
+    </div>
+  </div>
+} @else if (naoEncontrada()) {
+  <p class="detalhe__vazio">Esta denúncia não foi encontrada.</p>
+} @else {
+  <p class="detalhe__vazio">A carregar…</p>
+}

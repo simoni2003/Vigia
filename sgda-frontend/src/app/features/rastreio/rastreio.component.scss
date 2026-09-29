@@ -1,0 +1,124 @@
+:host { display: block; min-height: 100vh; }
+
+.nav {
+  padding: var(--espaco-5) var(--espaco-8);
+}
+.nav__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.rastreio {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: var(--espaco-7) var(--espaco-5) var(--espaco-9);
+
+  &__cabecalho {
+    text-align: center;
+    margin-bottom: var(--espaco-6);
+
+    h1 { font-size: 28px; margin-top: var(--espaco-3); }
+    p { color: var(--cor-texto-suave); margin-top: var(--espaco-2); }
+  }
+
+  &__busca {
+    display: flex;
+    gap: var(--espaco-3);
+
+    input {
+      flex: 1;
+      padding: 13px 16px;
+      border-radius: var(--raio-s);
+      border: 1px solid var(--cor-borda-forte);
+      font-size: 15px;
+      background: var(--cor-superficie);
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--cor-vermelho);
+      box-shadow: 0 0 0 3px var(--cor-vermelho-fundo);
+    }
+  }
+
+  &__erro {
+    margin-top: var(--espaco-4);
+    font-size: 14px;
+    color: var(--cor-vermelho-escuro);
+    background: var(--cor-vermelho-fundo);
+    padding: var(--espaco-3) var(--espaco-4);
+    border-radius: var(--raio-s);
+  }
+
+  &__resultado {
+    margin-top: var(--espaco-6);
+    padding: var(--espaco-6);
+
+    &-topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+    }
+  }
+
+  &__data {
+    color: var(--cor-texto-suave);
+    font-size: 13.5px;
+    margin-top: var(--espaco-2);
+  }
+
+  h2 {
+    font-size: 16px;
+    margin-top: var(--espaco-6);
+    margin-bottom: var(--espaco-4);
+  }
+
+  &__timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      gap: var(--espaco-4);
+      padding-bottom: var(--espaco-5);
+      position: relative;
+
+      &:not(:last-child)::before {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 14px;
+        bottom: 0;
+        width: 1px;
+        background: var(--cor-borda-forte);
+      }
+    }
+
+    &-ponto {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--cor-vermelho);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    &-acao {
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+
+    &-data {
+      font-size: 12.5px;
+      color: var(--cor-texto-suave);
+      margin-top: 2px;
+    }
+  }
+}
+
+.rastreio__chat { margin-top: var(--espaco-4); }

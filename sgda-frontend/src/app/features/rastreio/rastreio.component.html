@@ -1,0 +1,55 @@
+<header class="nav">
+  <a routerLink="/" class="nav__marca">
+    <vigia-icon nome="selo" [tamanho]="24" cor="var(--cor-vermelho)" />
+    <span>Vigia</span>
+  </a>
+</header>
+
+<main class="rastreio">
+  <div class="rastreio__cabecalho">
+    <vigia-icon nome="olho" [tamanho]="30" cor="var(--cor-vermelho)" />
+    <h1>Acompanhar denúncia</h1>
+    <p>Introduz o protocolo que recebeste no momento da submissão.</p>
+  </div>
+
+  <div class="rastreio__busca">
+    <input type="text" placeholder="Ex.: 7F2A-91C0-4E3D" class="mono"
+           [(ngModel)]="protocolo" (keyup.enter)="consultar()">
+    <button class="btn btn-primario" (click)="consultar()" [disabled]="carregando()">
+      {{ carregando() ? 'A procurar…' : 'Consultar' }}
+    </button>
+  </div>
+
+  @if (erro()) {
+    <p class="rastreio__erro">{{ erro() }}</p>
+  }
+
+  @if (resultado(); as r) {
+    <div class="rastreio__resultado cartao">
+      <div class="rastreio__resultado-topo">
+        <span class="mono">{{ r.protocolo }}</span>
+        <vigia-status-pill [status]="r.status" />
+      </div>
+
+      <p class="rastreio__data">Submetida em {{ r.dataCriacao | date:'dd/MM/yyyy, HH:mm' }}</p>
+
+      <h2>Histórico</h2>
+      <ol class="rastreio__timeline">
+        @for (item of r.historico; track item.dataHora) {
+          <li>
+            <span class="rastreio__timeline-ponto"></span>
+            <div>
+              <p class="rastreio__timeline-acao">{{ rotulo(item.acao) }}</p>
+              <p class="rastreio__timeline-data">{{ item.dataHora | date:'dd/MM/yyyy, HH:mm' }}</p>
+            </div>
+          </li>
+        }
+      </ol>
+
+      <a [routerLink]="['/chat', r.protocolo]" class="btn btn-secundario btn-bloco rastreio__chat">
+        <vigia-icon nome="conversa" [tamanho]="17" />
+        Conversar com o Comité
+      </a>
+    </div>
+  }
+</main>

@@ -1,0 +1,158 @@
+<header class="nav">
+  <div class="nav__marca">
+    <vigia-icon nome="selo" [tamanho]="26" cor="var(--cor-vermelho)" />
+    <span>Vigia</span>
+  </div>
+  <nav class="nav__links">
+    <a href="#como-funciona">Como funciona</a>
+    <a href="#seguranca">Segurança</a>
+    <a routerLink="/rastreio">Rastrear denúncia</a>
+    <a routerLink="/chat">Chat seguro</a>
+  </nav>
+  <a href="#denunciar" class="btn btn-primario">Fazer denúncia</a>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__texto">
+      <h1>Uma linha direta e confidencial para denunciar assédio.</h1>
+      <p class="hero__sub">
+        O Vigia liga quem denuncia ao Comité de Ética sem expor a sua identidade.
+        Cada caso recebe um protocolo único para acompanhamento — mesmo de forma anónima.
+      </p>
+      <div class="hero__acoes">
+        <a href="#denunciar" class="btn btn-primario">Fazer denúncia</a>
+        <a routerLink="/rastreio" class="btn btn-secundario">Já tenho um protocolo</a>
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="cartao-protocolo">
+        <div class="cartao-protocolo__topo">
+          <span class="cartao-protocolo__etiqueta">Protocolo</span>
+          <span class="selo selo--recebida">Recebida</span>
+        </div>
+        <p class="cartao-protocolo__codigo mono">7F2A-91C0-4E3D</p>
+        <div class="cartao-protocolo__linha linha--80"></div>
+        <div class="cartao-protocolo__linha linha--95"></div>
+        <div class="cartao-protocolo__linha linha--60"></div>
+        <div class="cartao-protocolo__rodape">
+          <vigia-icon nome="cadeado" [tamanho]="15" cor="var(--cor-texto-suave)" />
+          <span>Identidade protegida</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAIXA DE CONFIANÇA -->
+  <section class="confianca">
+    <div class="confianca__item">
+      <vigia-icon nome="confidencial" [tamanho]="22" cor="var(--cor-vermelho)" />
+      <span>Anonimato garantido</span>
+    </div>
+    <div class="confianca__item">
+      <vigia-icon nome="cadeado" [tamanho]="22" cor="var(--cor-vermelho)" />
+      <span>Dados encriptados</span>
+    </div>
+    <div class="confianca__item">
+      <vigia-icon nome="balanca" [tamanho]="22" cor="var(--cor-vermelho)" />
+      <span>Comité independente</span>
+    </div>
+    <div class="confianca__item">
+      <vigia-icon nome="relogio" [tamanho]="22" cor="var(--cor-vermelho)" />
+      <span>Primeira resposta em 48h</span>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA -->
+  <section class="processo" id="como-funciona">
+    <h2>Como funciona</h2>
+    <div class="processo__passos">
+      <div class="processo__passo">
+        <span class="processo__numero">01</span>
+        <h3>Submete a denúncia</h3>
+        <p>Com ou sem identificação. Descreve a situação com o detalhe que te sentires confortável a partilhar.</p>
+      </div>
+      <div class="processo__passo">
+        <span class="processo__numero">02</span>
+        <h3>Recebes um protocolo</h3>
+        <p>Um código único é a tua única credencial — guarda-o para consultar o processo mais tarde.</p>
+      </div>
+      <div class="processo__passo">
+        <span class="processo__numero">03</span>
+        <h3>Acompanhas o processo</h3>
+        <p>Vê o estado atualizado e conversa em segurança com o Comité, sempre através do protocolo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGURANÇA -->
+  <section class="seguranca" id="seguranca">
+    <vigia-icon nome="balanca" [tamanho]="30" cor="#FBF9F8" />
+    <h2>Um comité independente da hierarquia direta</h2>
+    <p>
+      As denúncias não passam pela chefia da pessoa envolvida. Só o Comité de Ética
+      tem acesso ao conteúdo, e nenhuma denúncia anónima pode ser associada a quem a submeteu.
+    </p>
+  </section>
+
+  <!-- FORMULÁRIO DE DENÚNCIA -->
+  <section class="denunciar" id="denunciar">
+    @if (!resultado()) {
+      <div class="denunciar__intro">
+        <h2>Descreve o que aconteceu</h2>
+        <p>Toma o tempo que precisares. Podes submeter sem indicar o teu nome ou email.</p>
+      </div>
+
+      <form class="denunciar__form cartao" (ngSubmit)="submeter()">
+        <div class="campo">
+          <label for="descricao">O que aconteceu</label>
+          <textarea id="descricao" name="descricao" rows="6"
+                    placeholder="Descreve os factos: quando, onde, quem esteve envolvido…"
+                    [(ngModel)]="form.descricao"></textarea>
+        </div>
+
+        <label class="denunciar__checkbox">
+          <input type="checkbox" name="anonima" [(ngModel)]="form.anonima">
+          <span>Quero submeter esta denúncia de forma anónima</span>
+        </label>
+
+        @if (!form.anonima) {
+          <div class="campo">
+            <label for="email">O teu email</label>
+            <input id="email" name="email" type="email" placeholder="nome@exemplo.com"
+                   [(ngModel)]="form.emailDenunciante">
+          </div>
+        }
+
+        @if (erro()) {
+          <p class="denunciar__erro">{{ erro() }}</p>
+        }
+
+        <button type="submit" class="btn btn-primario btn-bloco" [disabled]="enviando()">
+          {{ enviando() ? 'A submeter…' : 'Submeter denúncia' }}
+        </button>
+      </form>
+    } @else {
+      <div class="denunciar__sucesso cartao">
+        <vigia-icon nome="confidencial" [tamanho]="32" cor="var(--cor-vermelho)" />
+        <h2>Denúncia registada</h2>
+        <p>Guarda este protocolo — é a única forma de acompanhares o processo.</p>
+        <p class="denunciar__protocolo mono">{{ resultado()?.protocolo }}</p>
+        <div class="denunciar__sucesso-acoes">
+          <a [routerLink]="['/rastreio', resultado()?.protocolo]" class="btn btn-primario">Acompanhar agora</a>
+          <button class="btn btn-secundario" (click)="novaDenuncia()">Submeter outra denúncia</button>
+        </div>
+      </div>
+    }
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="nav__marca">
+    <vigia-icon nome="selo" [tamanho]="20" cor="var(--cor-vermelho)" />
+    <span>Vigia</span>
+  </div>
+  <p>Sistema de Gestão de Denúncias de Assédio</p>
+</footer>

@@ -1,0 +1,56 @@
+<div class="shell">
+  <aside class="shell__lateral">
+    <div class="shell__marca">
+      <vigia-icon nome="selo" [tamanho]="24" cor="var(--cor-vermelho)" />
+      <span>Vigia</span>
+    </div>
+
+    <nav class="shell__nav">
+      <a routerLink="/painel/dashboard" routerLinkActive="ativo">
+        <vigia-icon nome="painel" [tamanho]="19" />
+        <span>Painel</span>
+      </a>
+      <a routerLink="/painel/denuncias" routerLinkActive="ativo">
+        <vigia-icon nome="documento" [tamanho]="19" />
+        <span>Denúncias</span>
+      </a>
+      <a routerLink="/painel/mensagens" routerLinkActive="ativo">
+        <vigia-icon nome="conversa" [tamanho]="19" />
+        <span>Mensagens</span>
+      </a>
+      @if (ehAdmin()) {
+        <a routerLink="/painel/utilizadores" routerLinkActive="ativo">
+          <vigia-icon nome="pessoas" [tamanho]="19" />
+          <span>Utilizadores</span>
+        </a>
+      }
+    </nav>
+
+    <button class="shell__sair" (click)="sair()">
+      <vigia-icon nome="sair" [tamanho]="19" />
+      <span>Sair</span>
+    </button>
+  </aside>
+
+  <div class="shell__principal">
+    <header class="shell__topo">
+      <div class="shell__busca">
+        <vigia-icon nome="busca" [tamanho]="17" cor="var(--cor-texto-suave)" />
+        <input #campoBusca type="text" placeholder="Procurar por protocolo…" (keyup.enter)="pesquisar(campoBusca.value)">
+      </div>
+
+      <div class="shell__utilizador">
+        <vigia-icon nome="sino" [tamanho]="19" cor="var(--cor-texto-suave)" />
+        <div class="shell__avatar">{{ (auth.usuario()?.nome ?? '?').charAt(0) }}</div>
+        <div class="shell__utilizador-texto">
+          <p>{{ auth.usuario()?.nome }}</p>
+          <span>{{ auth.usuario()?.email }}</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell__conteudo">
+      <router-outlet />
+    </main>
+  </div>
+</div>

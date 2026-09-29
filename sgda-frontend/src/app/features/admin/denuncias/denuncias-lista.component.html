@@ -1,0 +1,54 @@
+<div class="lista">
+  <header class="cabecalho-pagina">
+    <div>
+      <h1>Denúncias</h1>
+      <p>{{ filtradas().length }} de {{ todas().length }} casos</p>
+    </div>
+  </header>
+
+  <div class="lista__filtros cartao">
+    <div class="lista__busca">
+      <vigia-icon nome="busca" [tamanho]="17" cor="var(--cor-texto-suave)" />
+      <input type="text" placeholder="Filtrar por protocolo" [ngModel]="busca()" (ngModelChange)="busca.set($event)">
+    </div>
+    <select [ngModel]="filtroStatus()" (ngModelChange)="filtroStatus.set($event)">
+      <option value="">Todos os estados</option>
+      @for (e of estados; track e.valor) {
+        <option [value]="e.valor">{{ e.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="cartao lista__tabela">
+    @if (carregando()) {
+      <p class="lista__vazio">A carregar casos…</p>
+    } @else if (erro()) {
+      <p class="lista__vazio">Não foi possível carregar as denúncias.</p>
+    } @else if (!filtradas().length) {
+      <p class="lista__vazio">Nenhum caso corresponde aos filtros.</p>
+    } @else {
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Data</th>
+            <th>Origem</th>
+            <th>Estado</th>
+            <th>Investigador</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of filtradas(); track d.id) {
+            <tr>
+              <td><a class="mono" [routerLink]="['/painel/denuncias', d.id]">{{ d.protocolo }}</a></td>
+              <td>{{ d.dataCriacao | date:'dd/MM/yyyy' }}</td>
+              <td>{{ d.anonima ? 'Anónima' : 'Identificada' }}</td>
+              <td><vigia-status-pill [status]="d.status" /></td>
+              <td>{{ d.investigadorResponsavel || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

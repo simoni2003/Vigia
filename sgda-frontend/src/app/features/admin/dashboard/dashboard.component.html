@@ -1,0 +1,85 @@
+<div class="dashboard">
+  <section class="boas-vindas cartao">
+    <div>
+      <p class="boas-vindas__eyebrow">{{ auth.usuario()?.role }}</p>
+      <h1>Bem-vindo de volta, {{ primeiroNome() }}</h1>
+      <p class="boas-vindas__sub">Aqui está o panorama atual dos casos em acompanhamento.</p>
+    </div>
+    <vigia-icon nome="balanca" [tamanho]="52" cor="var(--cor-vermelho-fundo-2)" />
+  </section>
+
+  <section class="metricas">
+    <div class="metricas__numeros">
+      <div class="metrica cartao">
+        <span class="metrica__valor">{{ resumo()?.totalDenuncias ?? '—' }}</span>
+        <span class="metrica__label">Total de denúncias</span>
+      </div>
+      <div class="metrica cartao">
+        <span class="metrica__valor">{{ resumo()?.contadorPorStatus?.RECEBIDA ?? '—' }}</span>
+        <span class="metrica__label">Recebidas</span>
+      </div>
+      <div class="metrica cartao">
+        <span class="metrica__valor">{{ resumo()?.contadorPorStatus?.EM_INVESTIGACAO ?? '—' }}</span>
+        <span class="metrica__label">Em investigação</span>
+      </div>
+      <div class="metrica cartao">
+        <span class="metrica__valor">{{ resumo()?.contadorPorStatus?.RESOLVIDA ?? '—' }}</span>
+        <span class="metrica__label">Resolvidas</span>
+      </div>
+    </div>
+
+    @if (distribuicao().length) {
+      <div class="distribuicao cartao">
+        <p class="distribuicao__titulo">Distribuição por estado</p>
+        <div class="distribuicao__barra">
+          @for (fatia of distribuicao(); track fatia.status) {
+            <div class="distribuicao__fatia" [class]="'fatia--' + fatia.status.toLowerCase()"
+                 [style.width.%]="fatia.percentagem"></div>
+          }
+        </div>
+        <div class="distribuicao__legenda">
+          @for (fatia of distribuicao(); track fatia.status) {
+            <div class="distribuicao__legenda-item">
+              <span class="distribuicao__ponto" [class]="'fatia--' + fatia.status.toLowerCase()"></span>
+              <span>{{ fatia.label }} · {{ fatia.total }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </section>
+
+  <section class="casos cartao">
+    <div class="casos__cabecalho">
+      <h2>Casos recentes</h2>
+      <a routerLink="/painel/denuncias" class="btn-texto">Ver todos</a>
+    </div>
+
+    @if (carregando()) {
+      <p class="casos__vazio">A carregar casos…</p>
+    } @else if (!denuncias().length) {
+      <p class="casos__vazio">Ainda não há denúncias registadas.</p>
+    } @else {
+      <table class="casos__tabela">
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Data</th>
+            <th>Estado</th>
+            <th>Investigador</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of denuncias(); track d.id) {
+            <tr>
+              <td><a class="mono casos__link" [routerLink]="['/painel/denuncias', d.id]">{{ d.protocolo }}</a></td>
+              <td>{{ d.dataCriacao | date:'dd/MM/yyyy' }}</td>
+              <td><vigia-status-pill [status]="d.status" /></td>
+              <td>{{ d.investigadorResponsavel || '—' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+</div>

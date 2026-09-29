@@ -1,0 +1,244 @@
+/* ==========================================================================
+   VIGIA — Sistema de Design
+   Conceito: um sistema de denúncias precisa de parecer sério, discreto e
+   fiável — o oposto de um SaaS alegre. A paleta é branco/vermelho por
+   requisito, tratada como um selo institucional (vermelho de lacre), não
+   como cor de alarme. Serifada para títulos (peso editorial/documental),
+   grotesca para interface, monoespaçada só para códigos de protocolo.
+   ========================================================================== */
+
+:root {
+  /* Cor */
+  --cor-fundo:            #FBF9F8;
+  --cor-fundo-alt:        #F4EFEE;
+  --cor-superficie:       #FFFFFF;
+  --cor-texto:            #1C1412;
+  --cor-texto-suave:      #6B5C59;
+  --cor-borda:            #E9DEDD;
+  --cor-borda-forte:      #D8C7C6;
+
+  --cor-vermelho:         #B01E32;
+  --cor-vermelho-escuro:  #7A1424;
+  --cor-vermelho-fundo:   #FBEAEB;
+  --cor-vermelho-fundo-2: #F6D9DC;
+
+  --cor-sucesso:          #2F6B4F;
+  --cor-sucesso-fundo:    #E7F1EC;
+  --cor-alerta:           #8A5A12;
+  --cor-alerta-fundo:     #F6EBDA;
+
+  /* Tipografia */
+  --fonte-titulo: 'Fraunces', Georgia, serif;
+  --fonte-ui: 'IBM Plex Sans', -apple-system, sans-serif;
+  --fonte-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  /* Escala */
+  --espaco-1: 4px;
+  --espaco-2: 8px;
+  --espaco-3: 12px;
+  --espaco-4: 16px;
+  --espaco-5: 24px;
+  --espaco-6: 32px;
+  --espaco-7: 48px;
+  --espaco-8: 64px;
+  --espaco-9: 96px;
+
+  --raio-s: 6px;
+  --raio-m: 10px;
+  --raio-l: 18px;
+
+  --sombra-card: 0 1px 2px rgba(28, 20, 18, 0.04), 0 8px 24px rgba(28, 20, 18, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p { margin: 0; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--fonte-ui);
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cor-vermelho);
+  outline-offset: 2px;
+}
+
+.mono {
+  font-family: var(--fonte-mono);
+  letter-spacing: 0.02em;
+}
+
+/* Botões ------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espaco-2);
+  padding: 13px 22px;
+  border-radius: var(--raio-s);
+  border: 1px solid transparent;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.btn-primario {
+  background: var(--cor-vermelho);
+  color: var(--cor-superficie);
+}
+.btn-primario:hover { background: var(--cor-vermelho-escuro); }
+
+.btn-secundario {
+  background: transparent;
+  color: var(--cor-texto);
+  border-color: var(--cor-borda-forte);
+}
+.btn-secundario:hover { border-color: var(--cor-vermelho); color: var(--cor-vermelho-escuro); }
+
+.btn-texto {
+  background: transparent;
+  color: var(--cor-vermelho-escuro);
+  padding: 8px 4px;
+}
+
+.btn-bloco { width: 100%; }
+
+/* Campos de formulário -------------------------------------------------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-2);
+}
+
+.campo label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+  font-family: var(--fonte-ui);
+  font-size: 15px;
+  padding: 12px 14px;
+  border-radius: var(--raio-s);
+  border: 1px solid var(--cor-borda-forte);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+  outline: none;
+  border-color: var(--cor-vermelho);
+  box-shadow: 0 0 0 3px var(--cor-vermelho-fundo);
+}
+
+.campo textarea { resize: vertical; min-height: 120px; }
+
+/* Cartão base ------------------------------------------------------------ */
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-m);
+}
+
+/* Selo de status ---------------------------------------------------------*/
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* Utilitários partilhados pelas páginas do painel ------------------------ */
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cor-texto-suave);
+    padding: var(--espaco-2) var(--espaco-3);
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  td {
+    padding: var(--espaco-3);
+    border-bottom: 1px solid var(--cor-borda);
+    vertical-align: middle;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--cor-fundo); }
+
+  a.mono:hover { color: var(--cor-vermelho-escuro); text-decoration: underline; }
+}
+
+.aviso {
+  font-size: 13.5px;
+  padding: var(--espaco-3) var(--espaco-4);
+  border-radius: var(--raio-s);
+
+  &--ok   { background: var(--cor-sucesso-fundo);  color: var(--cor-sucesso); }
+  &--erro { background: var(--cor-vermelho-fundo); color: var(--cor-vermelho-escuro); }
+}
+
+.cabecalho-pagina {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-4);
+
+  h1 { font-size: 26px; }
+  p  { color: var(--cor-texto-suave); font-size: 14px; margin-top: var(--espaco-1); }
+}
+
+select {
+  font-family: var(--fonte-ui);
+  font-size: 14px;
+  padding: 10px 14px;
+  border-radius: var(--raio-s);
+  border: 1px solid var(--cor-borda-forte);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}

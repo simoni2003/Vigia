@@ -1,0 +1,66 @@
+:host { display: block; min-height: 100vh; }
+
+.nav { padding: var(--espaco-5) var(--espaco-8); }
+.nav__marca {
+  display: flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  font-family: var(--fonte-titulo);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.chat-publico {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: var(--espaco-7) var(--espaco-5) var(--espaco-9);
+
+  &__cabecalho {
+    text-align: center;
+    margin-bottom: var(--espaco-6);
+
+    h1 { font-size: 28px; margin-top: var(--espaco-3); }
+    p { color: var(--cor-texto-suave); margin: var(--espaco-2) auto 0; max-width: 46ch; }
+  }
+
+  &__busca {
+    display: flex;
+    gap: var(--espaco-3);
+
+    input {
+      flex: 1;
+      padding: 13px 16px;
+      border-radius: var(--raio-s);
+      border: 1px solid var(--cor-borda-forte);
+      font-size: 15px;
+      background: var(--cor-superficie);
+    }
+    input:focus { outline: none; border-color: var(--cor-vermelho); box-shadow: 0 0 0 3px var(--cor-vermelho-fundo); }
+  }
+
+  &__erro { margin-top: var(--espaco-4); }
+
+  &__caixa { overflow: hidden; }
+
+  &__topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--espaco-3) var(--espaco-5);
+    border-bottom: 1px solid var(--cor-borda);
+    font-size: 14px;
+
+    div { display: flex; gap: var(--espaco-3); }
+  }
+
+  &__conversa { height: 520px; }
+
+  &__nota {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--cor-texto-suave);
+    margin-top: var(--espaco-4);
+  }
+}
+
+.btn-texto { border: none; font-size: 13.5px; font-weight: 600; }
